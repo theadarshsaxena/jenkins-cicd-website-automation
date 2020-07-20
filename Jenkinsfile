@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+      choice(name: 'CHOICE', choices: ['y', 'n'], description: 'Is It OK')
+   }
   stages {
     stage('Testing deployment') {
       parallel {
@@ -24,9 +27,7 @@ pipeline {
 
       }
     }
-    parameters {
-      choice(name: 'CHOICE', choices: ['y', 'n'], description: 'Is It OK')
-    }
+   
     stage('Deployment to production system') {
       steps {
         echo "choice: ${params.CHOICE}"
