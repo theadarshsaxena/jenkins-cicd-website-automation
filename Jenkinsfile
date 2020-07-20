@@ -1,8 +1,10 @@
 pipeline {
-  agent any
-  parameters {
-      choice(name: 'CHOICE', choices: ['y', 'n'], description: 'Is It OK')
-   }
+  agent {
+    docker {
+      image 'busybox'
+    }
+
+  }
   stages {
     stage('Testing deployment') {
       parallel {
@@ -27,7 +29,7 @@ pipeline {
 
       }
     }
-   
+
     stage('Deployment to production system') {
       steps {
         echo "choice: ${params.CHOICE}"
@@ -35,5 +37,8 @@ pipeline {
       }
     }
 
+  }
+  parameters {
+    choice(name: 'CHOICE', choices: ['y', 'n'], description: 'Is It OK')
   }
 }
